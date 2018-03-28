@@ -1,12 +1,12 @@
-
 backyard_flyer_solution.py
 CODEOWNERS
 colliders.csv
 setup.cfg
-Untitled.ipynb
 writeup_template.md
 motion_planning.py
 planning_utils.py
 misc/**
 windows/**
 .ipynb_checkpoints/**
+Logs/**
+__pycache__/**
