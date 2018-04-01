@@ -3,8 +3,6 @@ CODEOWNERS
 colliders.csv
 setup.cfg
 writeup_template.md
-motion_planning.py
-planning_utils.py
 misc/**
 windows/**
 .ipynb_checkpoints/**
