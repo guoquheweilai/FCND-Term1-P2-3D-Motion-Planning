@@ -8,3 +8,4 @@ windows/**
 .ipynb_checkpoints/**
 Logs/**
 __pycache__/**
+notebook.tex

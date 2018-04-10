@@ -2,6 +2,10 @@ from enum import Enum
 from queue import PriorityQueue
 import numpy as np
 from math import sqrt
+import re
+# If you want to use the prebuilt bresenham method
+# Import the Bresenham package
+from bresenham import bresenham
 
 
 def create_grid(data, drone_altitude, safety_distance):
@@ -157,3 +161,183 @@ def a_star(grid, h, start, goal):
 def heuristic(position, goal_position):
     return np.linalg.norm(np.array(position) - np.array(goal_position))
 
+def read_home(filepath):
+    """
+    Read the first line of the csv file
+    extract lat0 and lon0 as floating point values
+    """
+    # Read first line
+    with open(filepath) as f:
+        first_line = f.readline()
+#     print(first_line)
+    # Regular expression match
+    ret_groups = re.match('^lat0 (.*), lon0 (.*)$', first_line)
+#     print(ret_groups.group(1))
+    lat0 = float(ret_groups.group(1))
+    lon0 = float(ret_groups.group(2))
+#     print(type(lon0))
+    
+    return lat0, lon0
+
+# Define a simple function to add a z coordinate of 1
+def point(p):
+    return np.array([p[0], p[1], 1.])
+
+def collinearity_float(p1, p2, p3, epsilon=1e-2): 
+    collinear = False
+    # TODO: Add a third dimension of z=1 to each point
+    p1_new = point(p1)
+    p2_new = point(p2)
+    p3_new = point(p3)
+    
+    # TODO: Create the matrix out of three points
+    mat = np.vstack((p1_new, p2_new, p3_new))
+    
+    # TODO: Calculate the determinant of the matrix. 
+    det = np.linalg.det(mat)
+    
+    # TODO: Set collinear to True if the determinant is less than epsilon
+    collinear = False
+    if np.abs(det) < epsilon:
+        collinear = True
+
+    return collinear
+
+def collinearity_int(p1, p2, p3): 
+    collinear = False
+    # TODO: Calculate the determinant of the matrix using integer arithmetic 
+    det = p1[0] * (p2[1] - p3[1]) + p2[0] * (p3[1] - p1[1]) + p3[0] * (p1[1] - p2[1])
+    
+    # TODO: Set collinear to True if the determinant is equal to zero
+    if 0 == det:
+        collinear = True
+
+    return collinear
+
+def bres(p1, p2): 
+    """
+    Note this solution requires `x1` < `x2` and `y1` < `y2`.
+    """
+    x1, y1 = p1
+    x2, y2 = p2
+    cells = []
+    
+    print("p1 is", p1)
+    print("p2 is", p2)
+    
+    # TODO: Determine valid grid cells
+    dy = y2 - y1
+    dx = x2 - x1
+    # y = m*x + b
+    # -> dy = m*dx
+    # -> m = dy/dx
+    m = dy/dx
+#     print("m is", m)
+    
+    # Initial value
+    x = x1
+    y = y1
+    
+    # Initial cell value
+    x_cell = x1
+    y_cell = y1
+    
+    # Initial line equation result
+    f = m
+    
+    while x < x2 and y < y2:
+        cells.append([x_cell, y_cell])
+#         print("y is", y)
+        
+        if f > (y + 1):
+            y += 1
+            y_cell += 1
+#             print("Increase y")
+#             print("y is", y)
+        elif f == (y + 1):
+            if 0: # Set it to 1 for more conservative approach
+                cells.append([x_cell + 1, y_cell])
+                cells.append([x_cell, y_cell + 1])
+            x += 1
+            x_cell += 1
+            y += 1
+            y_cell += 1
+            f += m
+        else:
+            x += 1
+            x_cell += 1
+            f += m
+#             print("Increase x")
+#             print("x is", x)
+        
+        
+    return np.array(cells)
+
+def bres_check(grid, list_points):
+    points = []
+    edges = []
+
+    idx_start = 0
+    idx_end = 1
+    
+    # Start from the first point until the last but not least point
+    while idx_end <= (len(list_points) - 1):
+        starting_point = list_points[idx_start]
+        ending_point = list_points[idx_end]
+        
+#         cells_bres = bres(starting_point, ending_point)
+        cells_bres = list(bresenham(int(starting_point[0]), int(starting_point[1]), int(ending_point[0]), int(ending_point[1])))
+#         print("cells_bres is ", cells_bres)
+        in_collision = False
+        for cell in cells_bres:
+            # First check if we're off the map
+            if np.amin(cell) < 0 or cell[0] >= grid.shape[0] or cell[1] >= grid.shape[1]:
+                in_collision = True
+                break
+            # Next check if we're in collision
+            if 1 == grid[cell[0], cell[1]]:
+                in_collision = True
+                break
+        
+        # Then you can test each pair p1 and p2 for collision using Bresenham
+        # (need to convert to integer if using prebuilt Python package)
+        # If the edge does not hit an obstacle
+        # add it to the list
+        if not in_collision:
+            if (len(list_points) - 1) == idx_end:
+                points.append(starting_point)
+                points.append(ending_point)
+            idx_end += 1
+        else:
+            points.append(starting_point)
+            if (len(list_points) - 1) == idx_end:
+                points.append(starting_point)
+                points.append(list_points[idx_end - 1])
+                points.append(ending_point)
+            idx_start = idx_end - 1
+            idx_end += 1
+        
+    return points, edges
+
+def prune_path(grid, path):
+    pruned_path = [p for p in path]
+    # TODO: prune the path!
+    i = 0
+    while i < len(pruned_path) - 2:
+        p1 = point(pruned_path[i])
+        p2 = point(pruned_path[i + 1])
+        p3 = point(pruned_path[i + 2])
+        
+        # Check if 3 points are in a line
+        if collinearity_float(p1, p2, p3):
+            # Remove the 2nd point from the path
+            pruned_path.remove(pruned_path[i+1])
+        else:
+            # Move to the next 3 points
+            i += 1
+    
+    print("pruned_path before is", pruned_path)
+    pruned_path = bres_check(grid, pruned_path)[0]
+    print("pruned_path after is", pruned_path)
+    
+    return pruned_path
