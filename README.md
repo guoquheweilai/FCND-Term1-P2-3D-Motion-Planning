@@ -24,9 +24,28 @@ TODO: Create description for each files in the repository
 
 ## Run the project
 TODO: how to run the project step by step  
+1. Setup the environment by following [Setup Instructions](./README.md#12)  
+2. Launch your [Udacity FCND Simulator](https://github.com/udacity/FCND-Simulator-Releases/releases)  
+3. In your terminal which has `fcnd` environment activated, pick your goal position and run the corresponding command  
+
+First goal position [800, 785, 0.147]  
 ```
-python motion_planning.py arg1 val1 arg2 val2
+python motion_planning.py --global_goal_lon -122.39355284 --global_goal_lat 37.79682234 --global_goal_alt -0.147
 ```
+Second goal position [787, 46, 0.147]  
+```
+python motion_planning.py --global_goal_lon -122.40195876 --global_goal_lat 37.79673913 --global_goal_alt -0.147
+```
+Third goal position [80, 80, 0.147]  
+```
+python motion_planning.py --global_goal_lon -122.40161255 --global_goal_lat 37.79037412 --global_goal_alt -0.147
+```
+Fourth goal position [80, 800, 0.147]  
+```
+python motion_planning.py --global_goal_lon -122.39343552 --global_goal_lat 37.79033231 --global_goal_alt -0.147
+```
+4. Your drone should be flying after 20-30 seconds waiting.  
+5. Done  
 
 ## Project Rubric
 TODO: Answer the rubric questions by specifying the line number in the code  
