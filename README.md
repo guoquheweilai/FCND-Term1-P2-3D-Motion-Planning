@@ -64,16 +64,19 @@ You are reading it!
 Global home location is read at [`motion_planning.py` Line124](./motion_planning.py#L124)  
 Function [`read_home()`](./planning_utils.py#L164-L180) added to [`planning_utils.py`](./planning_utils.py)  
 #### 3.2 In the starter code, we assume the drone takes off from map center, but you'll need to be able to takeoff from anywhere. Retrieve your current position in geodetic coordinates from `self._latitude`, `self._longitude` and `self._altitude`. Then use the utility function `global_to_local()` to convert to local position (using `self.global_home` as well, which you just set)  
-This implementation is handled by [`motion_planning.py` Line130-134](./planning_utils.py#L130-L134)
+This implementation is handled by [`motion_planning.py` Line130-134](./motion_planning.py#L130-L134)
 #### 3.3 In the starter code, the `start` point for planning is hardcoded as map center. Change this to be your current local position.  
-This implementation is handled by [`motion_planning.py` Line143-148](./planning_utils.py#L143-L148)  
+This implementation is handled by [`motion_planning.py` Line143-148](./motion_planning.py#L143-L148)  
 #### 3.4 In the starter code, the goal position is hardcoded as some location 10 m north and 10 m east of map center. Modify this to be set as some arbitrary position on the grid given any geodetic coordinates (latitude, longitude)  
-Three arguments were added to [`motion_planning.py` Line192-194](./planning_utils.py#L192-L194)  
-They were being parsed and passing to created `drone` at [`motion_planning.py` Line199-200](./planning_utils.py#L199-L200)  
-Class `MotionPlanning` were modified to accept new arguments at [`motion_planning.py` Line26](./planning_utils.py#L26)  
-Global goal position was initialized at [`motion_planning.py` Line36](./planning_utils.py#L36)  
-It will be used at [`motion_planning.py` Line153](./planning_utils.py#L153)  
+Three arguments were added to [`motion_planning.py` Line192-194](./motion_planning.py#L192-L194)  
+They were being parsed and passing to created `drone` at [`motion_planning.py` Line199-200](./motion_planning.py#L199-L200)  
+Class `MotionPlanning` were modified to accept new arguments at [`motion_planning.py` Line26](./motion_planning.py#L26)  
+Global goal position was initialized at [`motion_planning.py` Line36](./motion_planning.py#L36)  
+It will be used at [`motion_planning.py` Line153](./motion_planning.py#L153)  
 #### 3.5 Write your search algorithm. Minimum requirement here is to add diagonal motions to the A* implementation provided, and assign them a cost of sqrt(2). However, you're encouraged to get creative and try other methods from the lessons and beyond!  
+Diagnoal motions with a cost of sqrt(2) were added to [`planning_utils.py` Line63-66](./planning_utils.py#L63-L66)  
+`valid_actions()` was modified to adapt to this change [`planning_utils.py` Line96-103](./planning_utils.py#L96-L103)  
 #### 3.6 Cull waypoints from the path you determine using search.  
+
 ### 4. Executing the flight  
 #### 4.1 This is simply a check on whether it all worked. Send the waypoints and the autopilot should fly you from start to goal!  
