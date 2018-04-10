@@ -23,7 +23,7 @@ TODO: Create description for each files in the repository
 - [README.md](./README.md)
 
 ## Run the project
-1. Setup the environment by following [Setup Instructions](./README.md#12)  
+1. Setup the environment by following [Setup Instructions](./README.md#L12)  
 2. Launch your [Udacity FCND Simulator](https://github.com/udacity/FCND-Simulator-Releases/releases)  
 3. In your terminal which has `fcnd` environment activated, pick your goal position and run the corresponding command  
 
@@ -77,6 +77,39 @@ It will be used at [`motion_planning.py` Line153](./motion_planning.py#L153)
 Diagnoal motions with a cost of sqrt(2) were added to [`planning_utils.py` Line63-66](./planning_utils.py#L63-L66)  
 `valid_actions()` was modified to adapt to this change [`planning_utils.py` Line96-103](./planning_utils.py#L96-L103)  
 #### 3.6 Cull waypoints from the path you determine using search.  
+Calling `prune_path()` in [`motion_planning.py` Line164](./motion_planning.py#L164)  
+This function will  
+- Call `collinearity_float()` in [`planning_utils.py` Line332](./planning_utils.py#L332) which will return true or false after the collinearity check on the given three waypoints.  
+- Then call `bres_check` in [`planning_utils.py` Line340](./planning_utils.py#L340) which will return a list of optimized waypoints on given grid and path.  
+
+A* grid with safety distance  
+![A* grid with safety distance](./images/Grid_with_safety_distance.png)  
+
+Planned path found for first goal position  
+![Planned_Path_First_Goal](./images/Planned_Path_First_Goal.png)  
+
+Pruned path for first goal position  
+![Pruned_Path_First_Goal](./images/Planned_Path_First_Goal_Pruned.png)  
+
+Planned path found for second goal position  
+![Planned_Path_Second_Goal](./images/Planned_Path_Second_Goal.png)  
+
+Pruned path for second goal position  
+![Pruned_Path_Second_Goal](./images/Planned_Path_Second_Goal_Pruned.png)  
+
+Planned path found for third goal position  
+![Planned_Path_Third_Goal](./images/Planned_Path_Third_Goal.png)  
+
+Pruned path for third goal position  
+![Pruned_Path_Third_Goal](./images/Planned_Path_Third_Goal_Pruned.png)  
+
+Planned path found for fourth goal position  
+![Planned_Path_Fourth_Goal](./images/Planned_Path_Fourth_Goal.png)  
+
+Pruned path for fourth goal position  
+![Pruned_Path_Fourth_Goal](./images/Planned_Path_Fourth_Goal_Pruned.png)  
 
 ### 4. Executing the flight  
 #### 4.1 This is simply a check on whether it all worked. Send the waypoints and the autopilot should fly you from start to goal!  
+Please check it out by following the steps in [## Run the project](./README.md#L25-L47).  
+Cheers!  
