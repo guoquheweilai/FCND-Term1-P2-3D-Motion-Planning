@@ -63,9 +63,9 @@ You are reading it!
 Global home location is read at [`motion_planning.py` Line124](./motion_planning.py#L124)  
 Function `read_home()` added to [`planning_utils.py` Line164-180](./planning_utils.py#L164-L180)  
 #### 3.2 In the starter code, we assume the drone takes off from map center, but you'll need to be able to takeoff from anywhere. Retrieve your current position in geodetic coordinates from `self._latitude`, `self._longitude` and `self._altitude`. Then use the utility function `global_to_local()` to convert to local position (using `self.global_home` as well, which you just set)  
-This implementation is handled by [`motion_planning.py` Line130-134](./motion_planning.py#L130-L134)
+This implementation is handled at [`motion_planning.py` Line130-134](./motion_planning.py#L130-L134)
 #### 3.3 In the starter code, the `start` point for planning is hardcoded as map center. Change this to be your current local position.  
-This implementation is handled by [`motion_planning.py` Line143-148](./motion_planning.py#L143-L148)  
+This implementation is handled at [`motion_planning.py` Line143-148](./motion_planning.py#L143-L148)  
 #### 3.4 In the starter code, the goal position is hardcoded as some location 10 m north and 10 m east of map center. Modify this to be set as some arbitrary position on the grid given any geodetic coordinates (latitude, longitude)  
 Three arguments were added to [`motion_planning.py` Line192-194](./motion_planning.py#L192-L194)  
 They were being parsed and passing to created `drone` at [`motion_planning.py` Line199-200](./motion_planning.py#L199-L200)  
@@ -76,10 +76,10 @@ It will be used at [`motion_planning.py` Line153](./motion_planning.py#L153)
 Diagnoal motions with a cost of sqrt(2) were added to [`planning_utils.py` Line63-66](./planning_utils.py#L63-L66)  
 `valid_actions()` was modified to adapt to this change [`planning_utils.py` Line96-103](./planning_utils.py#L96-L103)  
 #### 3.6 Cull waypoints from the path you determine using search.  
-Calling `prune_path()` in [`motion_planning.py` Line164](./motion_planning.py#L164)  
+Calling `prune_path()` at [`motion_planning.py` Line164](./motion_planning.py#L164)  
 This function will  
-- Call `collinearity_float()` in [`planning_utils.py` Line332](./planning_utils.py#L332) which will return true or false after the collinearity check on the given three waypoints.  
-- Then call `bres_check` in [`planning_utils.py` Line340](./planning_utils.py#L340) which will return a list of optimized waypoints on given grid and path.  
+- Call `collinearity_float()` at [`planning_utils.py` Line332](./planning_utils.py#L332) which will return true or false after the collinearity check on the given three waypoints.  
+- Then call `bres_check` at [`planning_utils.py` Line340](./planning_utils.py#L340) which will return a list of optimized waypoints on given grid and path.  
 
 A* grid with safety distance  
 ![A* grid with safety distance](./images/Grid_with_safety_distance.png)  
