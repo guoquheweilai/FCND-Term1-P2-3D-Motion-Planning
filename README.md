@@ -16,11 +16,10 @@ To run this project, you need to have the following software installed:
 4. `source activate fcnd` to activate the environment (you'll need to do this whenever you want to work in this environment).
 
 ## Project Description
-TODO: Create description for each files in the repository
-- [3D-Motion-Planning.ipynb](./3D-Motion-Planning.ipynb)
-- [motion_planning.py](./motion_planning.py)
-- [planning_utils.py](./planning_utils.py)
-- [README.md](./README.md)
+- [3D-Motion-Planning.ipynb](./3D-Motion-Planning.ipynb): Jupyter notebook for developing and debugging code.  
+- [motion_planning.py](./motion_planning.py): Main code running the motion planning.  
+- [planning_utils.py](./planning_utils.py): Support utility file for `motion_planning.py`.  
+- [README.md](./README.md): Writeup for this project, including setup, running instructions and project rubric addressing.  
 
 ## Run the project
 1. Setup the environment by following [Setup Instructions](./README.md#L12)  
@@ -52,17 +51,17 @@ python motion_planning.py --global_goal_lon -122.39343552 --global_goal_lat 37.7
 You are reading it!  
 ### 2. Explain the Starter Code  
 #### 2.1 Test that `motion_planning.py` is a modified version of `backyard_flyer_solution.py` for simple path planning. Verify that both scripts work. Then, compare them side by side and describe in words how each of the modifications implemented in `motion_planning.py` is functioning.  
-1. States are defined different, using auto()  
+1. States are defined different, using `auto()`  
 2. Add PLANNING state in states  
 3. Replace all_waypoints with waypoints in class initial definition  
-4. In state_callback(), in Arming state, instead of calling takeoff_transition(), it is calling plan_path()  
-5. In state_callback(), in Planning state, calliing takeoff_transition()  
-6. Add new function send_waypoints()  
-7. Add new function plan_path()  
+4. In `state_callback()`, in Arming state, instead of calling `takeoff_transition()`, it is calling `plan_path()`  
+5. In `state_callback()`, in Planning state, calliing `takeoff_transition()`  
+6. Add new function `send_waypoints()`  
+7. Add new function `plan_path()`  
 ### 3. Implementing Your Path Planning Algorithm  
 #### 3.1 In the starter code, we assume that the home position is where the drone first initializes, but in reality you need to be able to start planning from anywhere. Modify your code to read the global home location from the first line of the `colliders.csv` file and set that position as global home (`self.set_home_position()`)  
 Global home location is read at [`motion_planning.py` Line124](./motion_planning.py#L124)  
-Function [`read_home()`](./planning_utils.py#L164-L180) added to [`planning_utils.py`](./planning_utils.py)  
+Function `read_home()` added to [`planning_utils.py` Line164-180](./planning_utils.py#L164-L180)  
 #### 3.2 In the starter code, we assume the drone takes off from map center, but you'll need to be able to takeoff from anywhere. Retrieve your current position in geodetic coordinates from `self._latitude`, `self._longitude` and `self._altitude`. Then use the utility function `global_to_local()` to convert to local position (using `self.global_home` as well, which you just set)  
 This implementation is handled by [`motion_planning.py` Line130-134](./motion_planning.py#L130-L134)
 #### 3.3 In the starter code, the `start` point for planning is hardcoded as map center. Change this to be your current local position.  
